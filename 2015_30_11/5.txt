@@ -1,0 +1,101 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<conio.h>
+struct node {
+	int num;
+	struct node *next;
+};
+
+void print_list(struct node *head)
+{
+    struct node *ptr = head;
+
+    printf("\n -------Printing list Start------- \n");
+    while(ptr != NULL)
+    {
+        printf("\n [%d] \n",ptr->num);
+        ptr = ptr->next;
+    }
+    printf("\n -------Printing list End------- \n");
+
+    return;
+}
+struct node * createNode(int num) {
+			struct node *newNode = (struct node *)malloc(sizeof(struct node));
+			newNode->num = num;
+			newNode->next = NULL;
+			return newNode;
+		}
+
+
+struct node* merge(struct node *p,struct node *q)
+{
+        struct node *result=NULL;
+        if(p==NULL)
+        { return q;
+        }
+        if(q==NULL)
+        { return p;
+            
+        }
+        if(p->num<q->num)
+        { result=p;
+          result->next=merge(p->next,q);
+        }
+        else if(p->num>q->num)
+        { result=q;
+          result->next=merge(p,q->next);
+        }
+        else { result=q;
+               result->next=merge(p->next,q->next);
+        }
+        return result;
+}
+
+int npr(n1,n2,r)
+{ int j=0,temp=n1*(r+1);
+  struct node *head1=NULL; 
+  struct node *head2=NULL; 
+  struct node *megd=NULL;
+  struct node *fin=NULL;
+  while(j<=r)                        // creating n1 table
+  {   
+      struct node *newNode1 = createNode(temp);
+      newNode1->next = head1;
+      head1 = newNode1;
+      j++;
+      temp=temp-n1;
+  }
+  print_list(head1);
+  j=0;
+  temp=n2*(r+1);                      // creating n2 table
+  while(j<=r)
+  {   
+      struct node *newNode2 = createNode(temp);
+      newNode2->next=head2;
+      head2=newNode2;
+      j++;
+      temp=temp-n2;
+  }
+    print_list(head2);
+  j=0;
+  temp=0;
+  megd=merge(head1,head2);              // merging n1 , n2 tables
+  print_list(megd);
+  while(j!=r)
+  {
+   megd=megd->next;
+   j++;
+  }
+  temp=megd->num;
+  
+  
+  return temp;
+}
+int main(void) {
+ int t;
+ t=npr(3,5,5);
+ printf("%d",t);
+ getch();
+return 0;
+}

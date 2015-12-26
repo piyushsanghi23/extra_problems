@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<conio.h>
+#include<malloc.h>
+struct node {
+	int num;
+	struct node *next;
+};
+
+void print_list(struct node *head)
+{
+    struct node *ptr = head;
+
+    printf("\n -------Printing list Start------- \n");
+    while(ptr != NULL)
+    {
+        printf("\n [%d] \n",ptr->num);
+        ptr = ptr->next;
+    }
+    printf("\n -------Printing list End------- \n");
+
+    return;
+}
+struct node * createNode(int num) {
+			struct node *newNode = (struct node *)malloc(sizeof(struct node));
+			newNode->num = num;
+			newNode->next = NULL;
+			return newNode;
+		}
+
+struct node * createList(int num) {
+			struct node *head = createNode(num % 10);
+			num /= 10;
+			while (num) {
+				struct node *newNode = createNode(num % 10);
+				newNode->next = head;
+				head = newNode;
+				num /= 10;
+			}
+			return head;
+		}
+struct node* merge(struct node *p,struct node *q)
+{
+        struct node *result=NULL;
+        if(p==NULL)
+        { return q;
+        }
+        if(q==NULL)
+        { return p;
+            
+        }
+        if(p->num<q->num)
+        { result=p;
+          result->next=merge(p->next,q);
+        }
+        else if(p->num>q->num)
+        { result=q;
+          result->next=merge(p,q->next);
+        }
+      else { result=q;
+               result->next=merge(p->next,q->next);
+            }
+        return result;
+}
+int main(void) {
+    struct node *p,*q,*r;
+    p=createList(1357); // some linked list p
+    q=createList(24689); // some linked list q
+    r=merge(p,q); // merging and saving in new LL
+    print_list(r);
+	getch();
+    return 0;
+}

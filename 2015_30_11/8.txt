@@ -1,0 +1,172 @@
+#include<conio.h>
+
+#include<malloc.h>
+
+#include<stdio.h>
+
+struct node 
+{
+	int num;
+
+	struct node *next;
+
+};
+
+
+
+void print_list(struct node *head)
+
+{
+	struct node *ptr = head;
+
+
+	printf("\n -------Printing list Start------- \n");
+
+	while (ptr != NULL)
+
+	{
+		printf("\n [%d] \n", ptr->num);
+	
+	ptr = ptr->next;
+
+	}
+	
+printf("\n -------Printing list End------- \n");
+
+
+	return;
+
+}
+
+struct node * createNode(int num)
+ {
+	struct node *newNode = (struct node *)malloc(sizeof(struct node));
+
+	newNode->num = num;
+
+	newNode->next = NULL;
+
+	return newNode;
+
+}
+
+
+struct node * createList(int num) 
+{
+	struct node *head = createNode(num % 10);
+
+	num /= 10;
+
+	while (num)
+ {
+	        struct node *newNode = createNode(num % 10);
+
+		newNode->next = head;
+
+		head = newNode;
+
+		num /= 10;
+
+	}
+	
+return head;
+
+}
+
+
+
+struct node * sortLinkedList(struct node *head)
+
+{
+	if (head != NULL)
+
+	{
+		
+                int temp = 0, c = 0;
+
+		struct node *first = head;
+
+		struct node *second = head;
+
+		struct node *third = head;
+
+		while (third->next != NULL)
+
+		{
+
+			third = third->next;
+
+		}
+		
+c = third->num;
+
+		while (first->num > c)
+
+		{
+
+			first = first->next;
+
+			second = second->next;
+
+		}
+
+		while (second->next != NULL)
+
+		{
+
+			while (first->next != NULL)
+
+			{
+
+				if (first->num > first->next->num)
+				                                {
+
+					temp = first->num;
+
+					first->num = first->next->num;
+
+					first->next->num = temp;
+
+
+				}
+
+				first = first->next;
+
+			}
+
+			first = head;
+
+			second = second->next;
+
+		}
+		
+    return head;
+
+	}
+
+	
+       else
+	
+        {
+
+		return NULL;
+
+	}
+
+}
+
+int main(void)
+ 
+{
+	struct node *p;
+
+
+	p = createList(124876);
+
+	p = sortLinkedList(p);
+
+	print_list(p);
+
+	return 0;
+
+}
