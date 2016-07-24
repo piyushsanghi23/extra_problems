@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+    
+};
+struct node* newNode(int num)
+{
+     struct node *temp = (struct node *)malloc(sizeof(struct node));
+     temp->left=NULL;
+     temp->right=NULL;
+     temp->data=num;
+     return temp;
+    
+}
+int max(int a , int b )
+{
+    if(a>b)return a;
+    else return b;
+}
+int height(struct node *root)
+{
+    if (root==NULL)return 0;
+    else 
+    {
+        return max(height(root->right),height(root->left))+1;
+    }
+}
+int no_nodes(struct node *root)
+{
+    if (root==NULL)return 0 ;
+    else 
+    {
+        int lt=0,rt=0;
+        if(root->left!=NULL)
+        {
+            lt=no_nodes(root->left);
+        }
+        if(root->right!=NULL)
+        {
+            rt=no_nodes(root->right);   
+        }
+        return lt+rt+1;
+    }
+}
+bool same(struct node * root1,struct node * root2)
+{
+    cout<<height(root1)<<"height of root 1";
+    cout<<height(root2)<<"height of root 2";
+    cout<<no_nodes(root1)<<"nodes root 1";
+    cout<<no_nodes(root2)<<"nodes root 2";
+    if(height(root1)==height(root2) && no_nodes(root1)==no_nodes(root2))return 1;
+    else return 0;
+}
+int main() {
+   struct  node *root1 = newNode(1);
+    root1->left = newNode(2);
+    root1->right = newNode(3);
+    root1->left->left = newNode(4);
+    root1->left->right = newNode(5);
+ 
+    struct node *root2 = newNode(1);
+    root2->left = newNode(2);
+    root2->right = newNode(3);
+     root2->left->left = newNode(4);
+    root2->left->right = newNode(5);
+    bool k;
+    k=same(root1,root2);
+    cout<<k;
+	// your code goes here
+	return 0;
+}
